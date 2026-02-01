@@ -1,0 +1,38 @@
+Part 1: Describe how you would build a logistic regression model to predict the probability of a bid winning (win) based on the other columns. What features would you select and why?
+
+Answer  :
+
+I'll eliminate the rows that have missing bidder.
+I'll impute the numeric columns.
+I'll perform EDA. Scatter plots for numeric features with the target and box plots for categorical features. 
+Based on the EDA and correlation heatmap, I'll select features.
+I'll select columns: bidder, size,ad_unit, request_count, sum_time_to_respond, avg_bid( based on the correlation with the target and since median bid has a lot of nulls) as my features
+here bidder and size are categorical columns hence I'll go for OHE and for numerical columns I'll firstly replace outliers and then scale them.
+I'll transorm the target 'win_count' to 1 or o. If win then 1 else 0.
+I'll run a logistic regression model as follows:
+a) Splitting the dataset into test and train (80:20).
+b) Using Stratified k-fold for cross validation
+   c) Work with a Logistic Regression model with class_weight parameter as 'balanced'
+   d) I'll finally check for metrics like accuracy, precision, etc. 
+
+Reason for selecting features:
+1) Bidder affects the rate of winning the bid as seen in the data (Q1)
+2) size is likely to have a good correlation with the target (As the bid depends of the size of ad)
+3) ad_unit,request_count, sum_time_to_respond, avg_bid are important numeric features that affect the win probability in an auction.
+
+
+
+Part 2: Based on the following results from a logistic regression model  trained on the dataset, interpret the coefficients:
+bid_amount: Coefficient = 0.8
+time_to_bid: Coefficient = -0.4
+ad_unit_A: Coefficient = 0.3 (reference category: ad_unit_B)
+Answer:
+
+If the coeff of bid_amount = 0.8.
+It means that 1 unit increase in the bid_amount(by 1$) would increase the log loss of the target by 1.
+
+If the coeff of time_to_bid = -0.4.
+It means that 1 unit increase in the time_to_bid(1 unit increase in time ) would decrease the log loss of the target by 1.
+
+If the coeff of ad_unit_A = 0.3.
+It means that if the ad_unit is of category A, then there would be an increase in the log loss of the target by 1.
